@@ -113,7 +113,7 @@ Font.boundingBox = function(text, scale=1)
 end function
 
 // Get a Sprite for a specific character
-Font.getSprite = function(charId, x, y)
+Font.getSprite = function(charId, x, y, tint="#FFFFFFFF", scale=1)
 	s = new Sprite
     id = code(charId)
     s.image = self.pages[self.chars[id].page].image
@@ -139,19 +139,15 @@ Font.getSprite = function(charId, x, y)
         [self.chars[id].width, self.chars[id].height],
         [0, self.chars[id].height],
     ]
-    if s.scale isa list then
-        s.x = x * s.scale[0]
-        s.y = y * s.scale[1]
-    else
-        s.x = x * s.scale
-        s.y = y * s.scale
-    end if
-    
+    s.scale = scale
+    s.tint = tint
+    s.x = x + self.chars[id].xoffset * scale
+    s.y = y + (self.common.base - self.chars[id].height) * scale - self.chars[id].yoffset * scale
     return s
 end function
 
 // Set a Sprite for a specific character
-Font.setSprite = function(charId, sprite)
+Font.setSprite = function(charId, sprite, tint="#FFFFFFFF", scale=1)
     id = code(charId)
 	sprite.image = self.pages[self.chars[id].page].image
     x = sprite.x
@@ -177,13 +173,15 @@ Font.setSprite = function(charId, sprite)
         [self.chars[id].width, self.chars[id].height],
         [0, self.chars[id].height],
     ]
-    sprite.x = x
-    sprite.y = y
+    sprite.scale = scale
+    sprite.tint = tint
+    sprite.x = x + self.chars[id].xoffset * scale
+    sprite.y = y + (self.common.base - self.chars[id].height) * scale - self.chars[id].yoffset * scale 
     return sprite
 end function
 
 // Get an array of Sprites for a string of text
-Font.getSprites = function(text, x, y, scale=1)
+Font.getSprites = function(text, x, y, tint="#FFFFFFFF", scale=1)
 	s = []
     i = 0
 	while i < text.len
@@ -192,6 +190,7 @@ Font.getSprites = function(text, x, y, scale=1)
         sprite.y = y
         s.push self.setSprite(text[i], sprite)
         sprite.scale = scale
+        sprite.tint = tint
         id = code(text[i])
         x += self.chars[id].xadvance * scale
 		i += 1
@@ -203,8 +202,7 @@ if globals == locals then
     display(4).clear
 	font = Font.load("/usr/fonts/font.fnt")
     c = font.getSprite("H", 100, 100)
-    c.scale = 2
     display(4).sprites.push c
-    display(4).sprites = font.getSprites("Options", 200, 200, 2)
+    display(4).sprites += font.getSprites("Options", 200, 100)
     yield
 end if
