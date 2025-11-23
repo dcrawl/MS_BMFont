@@ -25,10 +25,10 @@ Font.load = function(filename)
 	font.kernings = {}
 
 	// Read in the FNT file and Atlas Images
-   lines = file.readLines(filename)
-   path = filename.split("/")
-   path.pop()
-   path = path.join("/")
+    lines = file.readLines(filename)
+    path = filename.split("/")
+    path.pop()
+    path = path.join("/")
 
 	toValue = function(x)
 		return x.val
@@ -87,13 +87,10 @@ Font.load = function(filename)
 				"page": char.page.val,
 				"chnl": char.chnl.val,
 			}
-		else if line.startsWith("kern ") then
-			kern = line.match("kern first={first} second={second} amount={amount}")
-			font.kernings[kern.first.val] = {
-				"first": kern.first.val,
-				"second": kern.second.val,
-				"amount": kern.amount.val,
-			}
+		else if line.startsWith("kerning ") then
+			kern = line.match("kerning first={first} second={second} amount={amount}")
+            if not font.kernings.hasIndex(kern.first.val) then font.kernings[kern.first.val] = {}
+            font.kernings[kern.first.val][kern.second.val] = kern.amount.val
 		end if
 		i += 1
 	end while
@@ -240,6 +237,13 @@ Font.getSprites = function(text, x, y, tint="#FFFFFFFF", scale=1)
         sprite.scale = scale
         sprite.tint = tint
         id = code(text[i])
+        // Check Kerning with next character
+        if i < text.len - 1 then
+            nextId = code(text[i + 1])
+            if self.kernings.hasIndex(id) and self.kernings[id].hasIndex(nextId) then
+                x += self.kernings[id][nextId] * scale
+            end if
+        end if
         x += self.chars[id].xadvance * scale
 		i += 1
 	end while
