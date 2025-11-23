@@ -13,7 +13,7 @@ Font = {
 
 Font.load = function(filename)
     qa.assert filename != null, "Font.load: filename is null"
-    qa.assert filename isa String, "Font.load: filename is not a String"
+    qa.assert filename isa string, "Font.load: filename is not a string"
     qa.assert filename.len > 0, "Font.load: filename is empty"
     qa.assert file.exists(filename), "Font.load: file does not exist"
 
@@ -103,9 +103,9 @@ end function
 // Calculate the width of the text
 Font.width = function(text, scale=1)
     qa.assert text != null, "Font.width: text is null"
-    qa.assert text isa String, "Font.width: text is not a String"
+    qa.assert text isa string, "Font.width: text is not a string"
     qa.assert text.len > 0, "Font.width: text is empty"
-    qa.assert scale isa Number, "Font.width: scale is not a Number"
+    qa.assert scale isa number, "Font.width: scale is not a number"
     qa.assert scale > 0, "Font.width: scale must be greater than 0"
 
 	// Loop through each character in the text and add up the xadvance values
@@ -122,9 +122,9 @@ end function
 // Calculate the bounding box of the text
 Font.boundingBox = function(text, scale=1)
     qa.assert text != null, "Font.width: text is null"
-    qa.assert text isa String, "Font.width: text is not a String"
+    qa.assert text isa string, "Font.width: text is not a string"
     qa.assert text.len > 0, "Font.width: text is empty"
-    qa.assert scale isa Number, "Font.width: scale is not a Number"
+    qa.assert scale isa number, "Font.width: scale is not a number"
     qa.assert scale > 0, "Font.width: scale must be greater than 0"
 
 	return [0, 0, self.width(text, scale), self.common.lineHeight * scale]
@@ -133,14 +133,14 @@ end function
 // Get a Sprite for a specific character
 Font.getSprite = function(charId, x, y, tint="#FFFFFFFF", scale=1)
     qa.assert charId != null, "Font.getSprite: charId is null"
-    qa.assert charId isa String, "Font.getSprite: charId is not a String"
+    qa.assert charId isa string, "Font.getSprite: charId is not a string"
     qa.assert charId.len == 1, "Font.getSprite: charId must be a single character"
-    qa.assert scale isa Number, "Font.getSprite: scale is not a Number"
+    qa.assert scale isa number, "Font.getSprite: scale is not a number"
     qa.assert scale > 0, "Font.getSprite: scale must be greater than 0"
-    qa.assert tint isa String, "Font.getSprite: tint is not a String"
+    qa.assert tint isa string, "Font.getSprite: tint is not a string"
     qa.assert tint.startsWith("#") and (tint.len == 9 or tint.len == 7), "Font.getSprite: tint must be in format #RRGGBBAA or #RRGGBB"
-    qa.assert x isa Number, "Font.getSprite: x is not a Number"
-    qa.assert y isa Number, "Font.getSprite: y is not a Number"
+    qa.assert x isa number, "Font.getSprite: x is not a number"
+    qa.assert y isa number, "Font.getSprite: y is not a number"
 
 
 	s = new Sprite
@@ -178,11 +178,11 @@ end function
 // Set a Sprite for a specific character
 Font.setSprite = function(charId, sprite, tint="#FFFFFFFF", scale=1)
     qa.assert charId != null, "Font.getSprite: charId is null"
-    qa.assert charId isa String, "Font.getSprite: charId is not a String"
+    qa.assert charId isa string, "Font.getSprite: charId is not a string"
     qa.assert charId.len == 1, "Font.getSprite: charId must be a single character"
-    qa.assert scale isa Number, "Font.getSprite: scale is not a Number"
+    qa.assert scale isa number, "Font.getSprite: scale is not a number"
     qa.assert scale > 0, "Font.getSprite: scale must be greater than 0"
-    qa.assert tint isa String, "Font.getSprite: tint is not a String"
+    qa.assert tint isa string, "Font.getSprite: tint is not a string"
     qa.assert tint.startsWith("#") and (tint.len == 9 or tint.len == 7), "Font.getSprite: tint must be in format #RRGGBBAA or #RRGGBB"
     qa.assert sprite != null, "Font.setSprite: sprite is null"
     qa.assert sprite isa Sprite, "Font.setSprite: sprite is not a Sprite"
@@ -222,13 +222,13 @@ end function
 // Get an array of Sprites for a string of text
 Font.getSprites = function(text, x, y, tint="#FFFFFFFF", scale=1)
     qa.assert text != null, "Font.getSprites: text is null"
-    qa.assert text isa String, "Font.getSprites: text is not a String"
-    qa.assert scale isa Number, "Font.getSprites: scale is not a Number"
+    qa.assert text isa string, "Font.getSprites: text is not a string"
+    qa.assert scale isa number, "Font.getSprites: scale is not a number"
     qa.assert scale > 0, "Font.getSprites: scale must be greater than 0"
-    qa.assert tint isa String, "Font.getSprites: tint is not a String"
+    qa.assert tint isa string, "Font.getSprites: tint is not a string"
     qa.assert tint.startsWith("#") and (tint.len == 9 or tint.len == 7), "Font.getSprites: tint must be in format #RRGGBBAA or #RRGGBB"
-    qa.assert x isa Number, "Font.getSprites: x is not a Number"
-    qa.assert y isa Number, "Font.getSprites: y is not a Number"
+    qa.assert x isa number, "Font.getSprites: x is not a number"
+    qa.assert y isa number, "Font.getSprites: y is not a number"
 
 	s = []
     i = 0
