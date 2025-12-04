@@ -154,7 +154,7 @@ Font.getSprite = function(charId, x, y, tint="#FFFFFFFF", scale=1)
     s.scale = scale
     s.tint = tint
     s.x = x + self.chars[id].xoffset * scale
-    s.y = y + (self.common.base - self.chars[id].height) * scale - self.chars[id].yoffset * scale
+    s.y = y + (self.common.base - self.chars[id].height - self.chars[id].yoffset) * scale
     return s
 end function
 
@@ -194,7 +194,7 @@ Font.setSprite = function(charId, sprite, tint="#FFFFFFFF", scale=1)
     sprite.scale = scale
     sprite.tint = tint
     sprite.x = x + self.chars[id].xoffset * scale
-    sprite.y = y + (self.common.base - self.chars[id].height) * scale - self.chars[id].yoffset * scale 
+    sprite.y = y + (self.common.base - self.chars[id].height - self.chars[id].yoffset) * scale
     return sprite
 end function
 
@@ -212,9 +212,7 @@ Font.getSprites = function(text, x, y, tint="#FFFFFFFF", scale=1)
         sprite = new Sprite
         sprite.x = x
         sprite.y = y
-        s.push self.setSprite(text[i], sprite)
-        sprite.scale = scale
-        sprite.tint = tint
+        s.push self.setSprite(text[i], sprite, tint, scale)
         id = code(text[i])
         // Check Kerning with next character
         if i < text.len - 1 then
@@ -231,9 +229,9 @@ end function
 
 if globals == locals then
     display(4).clear
-	font = Font.load("/usr/fonts/font.fnt")
+    font = Font.load("/usr/assets/fonts/gameplay.fnt")
     c = font.getSprite("H", 100, 100)
     display(4).sprites.push c
-    display(4).sprites += font.getSprites("Options", 200, 100)
+    display(4).sprites += font.getSprites("Options", 200, 100, color.white, 2)
     yield
 end if
